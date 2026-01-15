@@ -1,21 +1,21 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# 1. قواعد WebView و JavaScript (ضروري لنظام أندرويد 16)
+# إذا كان تطبيقك يستخدم WebView، يجب حماية واجهات JavaScript من الحذف أو التشويه
+-keepattributes JavascriptInterface
+-keepattributes *Annotation*
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# استبدل 'com.your.package.MyJSInterface' باسم الكلاس الخاص بك
+-keepclassmembers class com.your.package.MyJSInterface {
+    public *;
+}
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# 2. الحفاظ على أرقام الأسطر لتسهيل تتبع الأخطاء (Crashlytics)
+# في أندرويد 16، هذا ضروري جداً لفك تشفير الـ Stack Traces
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# 3. قواعد عامة لـ R8 (أندرويد 16 يركز على تقليص الحجم)
+# منع حذف الـ Enums لأنها تُستخدم غالباً في التصميم (Material You)
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
