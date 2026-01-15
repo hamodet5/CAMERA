@@ -1,23 +1,51 @@
-<div class="embed-container">
-    <iframe width="640" height="390" 
-    src="https://www.youtube.com/embed/{{ include.id }}" 
-    frameborder="0" allowfullscreen></iframe>
+<div class="video-wrapper">
+    <div class="embed-container">
+        <iframe 
+            src="https://www.youtube.com/embed/{{ include.id }}?rel=0&modestbranding=1" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+    </div>
 </div>
+
 <style>
+/* تحسينات Android 16 للشفافية والتجاوب */
+:root {
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+}
+
+.video-wrapper {
+  width: 100%;
+  max-width: 1000px; /* تحديد عرض أقصى مريح للعين */
+  margin: 0 auto;
+  border-radius: 16px; /* زوايا منحنية تتناسب مع لغة تصميم Android 16 */
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
 .embed-container {
   position: relative;
-  padding-bottom: 56.25%;
+  padding-bottom: 56.25%; /* نسبة 16:9 */
   height: 0;
-  overflow: hidden;
-  max-width: 100%;
+  background-color: #000; /* خلفية سوداء تمنع الوميض الأبيض أثناء التحميل */
 }
-.embed-container iframe,
-.embed-container object,
-.embed-container embed {
+
+.embed-container iframe {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  border: none;
+  /* تحسين الأداء في WebView */
+  will-change: transform;
+}
+
+/* دعم الوضع الليلي التلقائي */
+@media (prefers-color-scheme: dark) {
+  .video-wrapper {
+    box-shadow: 0 4px 25px rgba(0,0,0,0.5);
+  }
 }
 </style>
